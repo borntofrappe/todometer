@@ -8,3 +8,4 @@ Sub-folder used to design the application and develop the basic logic with [Svel
 
 "Database" in `lib/server/database.ts` is a simple array. There is no concept of persisting storage as the app focuses more on the interaction than creating a full-blown app. 
 
+Styles with CSS and custom properties from [Open Props](https://open-props.style/).

@@ -1,13 +1,14 @@
 <script lang="ts">
-	import Add from './Add.svelte';
 	import Header from './Header.svelte';
 	import Meter from './Meter.svelte';
+	import Add from './Add.svelte';
 	import Placeholder from './Placeholder.svelte';
+	import List from './List.svelte';
 
 	let { data } = $props();
-	let complete = $derived(data.tasks.filter((d) => d.status === 'complete'));
-	let paused = $derived(data.tasks.filter((d) => d.status === 'paused'));
-	let pending = $derived(data.tasks.filter((d) => d.status === 'pending'));
+	let complete = $derived(data.todos.filter((d) => d.status === 'complete'));
+	let paused = $derived(data.todos.filter((d) => d.status === 'paused'));
+	let pending = $derived(data.todos.filter((d) => d.status === 'pending'));
 </script>
 
 <div class="root">
@@ -18,11 +19,7 @@
 	<Add />
 
 	{#if pending.length > 0}
-		<ul>
-			{#each pending as todo}
-				<li>{todo.text}</li>
-			{/each}
-		</ul>
+		<List items={pending} />
 	{:else}
 		<Placeholder />
 	{/if}

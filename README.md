@@ -5,3 +5,6 @@
 ## sveltekit
 
 Sub-folder used to design the application and develop the basic logic with [SvelteKit form actions](https://svelte.dev/docs/kit/form-actions).
+
+"Database" in `lib/server/database.ts` is a simple array. There is no concept of persisting storage as the app focuses more on the interaction than creating a full-blown app. 
+

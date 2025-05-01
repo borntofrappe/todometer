@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Add from './Add.svelte';
 	import Header from './Header.svelte';
 	import Meter from './Meter.svelte';
 	import Placeholder from './Placeholder.svelte';
@@ -13,6 +14,8 @@
 	<Header />
 
 	<Meter values={[complete.length, paused.length, pending.length]} />
+
+	<Add />
 
 	{#if pending.length > 0}
 		<ul>

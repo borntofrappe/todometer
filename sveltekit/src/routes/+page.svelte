@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Header from './Header.svelte';
+	import Meter from './Meter.svelte';
 </script>
 
 <div class="root">
 	<Header />
+
+	<Meter values={[2, 2, 2]} />
 </div>
 
 <style>

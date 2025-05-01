@@ -1,2 +1,19 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import Header from './Header.svelte';
+</script>
+
+<div class="root">
+	<Header />
+</div>
+
+<style>
+	.root {
+		padding: var(--size-3) var(--size-2);
+		max-inline-size: var(--size-content-3);
+		margin-inline: auto;
+
+		> :global(* + *) {
+			margin-block-start: var(--size-5);
+		}
+	}
+</style>

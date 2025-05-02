@@ -4,6 +4,7 @@
 	import Add from './Add.svelte';
 	import Placeholder from './Placeholder.svelte';
 	import List from './List.svelte';
+	import Details from './Details.svelte';
 
 	let { data } = $props();
 	let complete = $derived(data.todos.filter((d) => d.status === 'complete'));
@@ -22,6 +23,24 @@
 		<List items={pending} />
 	{:else}
 		<Placeholder />
+	{/if}
+
+	{#if paused.length > 0}
+		<Details>
+			{#snippet summary()}
+				Do later
+			{/snippet}
+			<List items={paused} />
+		</Details>
+	{/if}
+
+	{#if complete.length > 0}
+		<Details>
+			{#snippet summary()}
+				Completed
+			{/snippet}
+			<List items={complete} />
+		</Details>
 	{/if}
 </div>
 

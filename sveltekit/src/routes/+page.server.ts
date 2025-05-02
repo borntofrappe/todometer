@@ -15,5 +15,20 @@ export const actions = {
 		if (text !== null) {
 			database.addTodo(text);
 		}
+	},
+	complete: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id') as string;
+		database.completeTodo(id);
+	},
+	toggle: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id') as string;
+		database.toggleTodo(id);
+	},
+	delete: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id') as string;
+		database.deleteTodo(id);
 	}
 } satisfies Actions;

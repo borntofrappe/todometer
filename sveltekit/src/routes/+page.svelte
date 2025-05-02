@@ -23,7 +23,13 @@
 	<Add />
 
 	{#if pending.length > 0}
-		<List items={pending} />
+		<List items={pending}>
+			{#snippet actions(item)}
+				<Complete {item} />
+				<Toggle {item} />
+				<Delete {item} />
+			{/snippet}
+		</List>
 	{:else}
 		<Placeholder />
 	{/if}
@@ -33,7 +39,14 @@
 			{#snippet summary()}
 				Do later
 			{/snippet}
-			<List items={paused} />
+			
+			<List items={paused}>
+				{#snippet actions(item)}
+					<Complete {item} />
+					<Toggle {item} />
+					<Delete {item} />
+				{/snippet}
+			</List>
 		</Details>
 	{/if}
 
@@ -42,7 +55,12 @@
 			{#snippet summary()}
 				Completed
 			{/snippet}
-			<List items={complete} />
+
+			<List items={complete}>
+				{#snippet actions(item)}
+					<Delete {item} />
+				{/snippet}
+			</List>
 		</Details>
 	{/if}
 </div>

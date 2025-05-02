@@ -1,11 +1,15 @@
 <script lang="ts">
-	let { items }: { items: Todo[] } = $props();
+	import type { Snippet } from 'svelte';
+
+	let { items, actions }: { items: Todo[]; actions: Snippet<[Todo]> } = $props();
 </script>
 
 <ul>
 	{#each items as item}
 		<li>
-			{item.text}
+			<span>{item.text}</span>
+
+			{@render actions(item)}
 		</li>
 	{/each}
 </ul>
@@ -20,8 +24,15 @@
 	}
 
 	li {
+		display: flex;
+		gap: var(--size-1);
+		align-items: center;
 		color: var(--text-1);
 		background: var(--surface-1);
 		padding: var(--size-4) var(--size-3);
+
+		span {
+			flex-grow: 1;
+		}
 	}
 </style>

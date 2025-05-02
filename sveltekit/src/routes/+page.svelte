@@ -1,10 +1,13 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import Meter from './Meter.svelte';
-	import Add from './Add.svelte';
+	import Add from './actions/Add.svelte';
 	import Placeholder from './Placeholder.svelte';
 	import List from './List.svelte';
 	import Details from './Details.svelte';
+	import Complete from './actions/Complete.svelte';
+	import Toggle from './actions/Toggle.svelte';
+	import Delete from './actions/Delete.svelte';
 
 	let { data } = $props();
 	let complete = $derived(data.todos.filter((d) => d.status === 'complete'));

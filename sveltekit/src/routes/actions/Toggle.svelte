@@ -7,7 +7,11 @@
 <form use:enhance method="POST" action="?/toggle">
 	<input type="hidden" name="id" value={item.id} />
 
-	<button aria-pressed={item.status === 'paused'} class="svg-button" aria-label="Toggle pause status">
+	<button
+		aria-pressed={item.status === 'paused'}
+		class="svg-button"
+		aria-label="Toggle pause status"
+	>
 		<svg viewBox="0 -960 960 960" width="1em" height="1em">
 			<path
 				fill="currentColor"

@@ -39,7 +39,7 @@
 			{#snippet summary()}
 				Do later
 			{/snippet}
-			
+
 			<List items={paused}>
 				{#snippet actions(item)}
 					<Complete {item} />

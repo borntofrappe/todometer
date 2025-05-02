@@ -12,36 +12,36 @@
 </form>
 
 <style>
-  form {
-    position: relative;
-    --_inline-padding: var(--size-3);
-    --_button-size: 2em;
+	form {
+		position: relative;
+		--_inline-padding: var(--size-3);
+		--_button-size: 2em;
 
-    input {
-      font-size: var(--font-size-2);
-      inline-size: 100%;
-      color: var(--text-1);
-      background: var(--surface-1);
-      border: none;
-      padding: var(--size-3) var(--_inline-padding);
-      padding-inline-end: calc(var(--_inline-padding) + var(--_button-size));
+		input {
+			font-size: var(--font-size-2);
+			inline-size: 100%;
+			color: var(--text-1);
+			background: var(--surface-1);
+			border: none;
+			padding: var(--size-3) var(--_inline-padding);
+			padding-inline-end: calc(var(--_inline-padding) + var(--_button-size));
 
-      &::placeholder {
-        color: var(--text-3);
-        font-weight: 300;
-      }
+			&::placeholder {
+				color: var(--text-3);
+				font-weight: 300;
+			}
 
-      &:focus {
-        outline: none;
-      }
-    }
+			&:focus {
+				outline: none;
+			}
+		}
 
-    button {
-      --button-size: var(--_button-size);
-      position: absolute;
-      inset-block-start: 50%;
-      inset-inline-end: var(--_inline-padding);
-      translate: 0% -50%;
-    }
-  }
+		button {
+			--button-size: var(--_button-size);
+			position: absolute;
+			inset-block-start: 50%;
+			inset-inline-end: var(--_inline-padding);
+			translate: 0% -50%;
+		}
+	}
 </style>

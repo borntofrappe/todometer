@@ -8,6 +8,7 @@
 	import Complete from './actions/Complete.svelte';
 	import Toggle from './actions/Toggle.svelte';
 	import Delete from './actions/Delete.svelte';
+	import Reset from './actions/Reset.svelte';
 
 	let { data } = $props();
 	let complete = $derived(data.todos.filter((d) => d.status === 'complete'));
@@ -62,6 +63,10 @@
 				{/snippet}
 			</List>
 		</Details>
+	{/if}
+
+	{#if paused.length + complete.length > 0}
+		<Reset />
 	{/if}
 </div>
 

@@ -30,5 +30,8 @@ export const actions = {
 		const data = await request.formData();
 		const id = data.get('id') as string;
 		database.deleteTodo(id);
+	},
+	reset: () => {
+		database.resetTodos();
 	}
 } satisfies Actions;

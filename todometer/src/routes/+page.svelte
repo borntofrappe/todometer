@@ -1,9 +1,17 @@
 <script lang="ts">
   import Header from "./Header.svelte";
+  import Meter from "./Meter.svelte";
+
+  let todos: Todo[] = $state([]);
+  let complete = $derived(todos.filter((d) => d.status === "complete"));
+  let paused = $derived(todos.filter((d) => d.status === "paused"));
+  let pending = $derived(todos.filter((d) => d.status === "pending"));
 </script>
 
 <div class="root">
   <Header />
+
+  <Meter values={[complete.length, paused.length, pending.length]} />
 </div>
 
 <style>

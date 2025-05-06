@@ -92,14 +92,14 @@
           }}
         />
         <Toggle
-          pressed={item.status === "paused"}
           onclick={() => {
-            completeTodo(item);
+            toggleTodo(item);
           }}
+          pressed={item.status === "paused"}
         />
         <Delete
           onclick={() => {
-            completeTodo(item);
+            deleteTodo(item);
           }}
         />
       {/snippet}

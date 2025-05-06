@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Database from "@tauri-apps/plugin-sql";
+
   import Header from "./Header.svelte";
   import Meter from "./Meter.svelte";
 
@@ -6,6 +8,14 @@
   let complete = $derived(todos.filter((d) => d.status === "complete"));
   let paused = $derived(todos.filter((d) => d.status === "paused"));
   let pending = $derived(todos.filter((d) => d.status === "pending"));
+
+  $effect(() => {
+    Database.load("sqlite:todos.db").then((db) => {
+      db.select("SELECT * FROM todos").then((result) => {
+        todos = result as Todo[];
+      });
+    });
+  });
 </script>
 
 <div class="root">

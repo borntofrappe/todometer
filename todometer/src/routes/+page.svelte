@@ -8,6 +8,8 @@
   import Placeholder from "./Placeholder.svelte";
   import Reset from "./Reset.svelte";
   import Complete from "./actions/Complete.svelte";
+  import Toggle from "./actions/Toggle.svelte";
+  import Delete from "./actions/Delete.svelte";
 
   let todos: Todo[] = $state([]);
   let complete = $derived(todos.filter((d) => d.status === "complete"));
@@ -42,6 +44,21 @@
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 
+  const toggleTodo = async (todo: Todo) => {
+    const db = await Database.load("sqlite:todos.db");
+    await db.execute("UPDATE todos SET status = $1 WHERE id = $2", [
+      todo.status === "paused" ? "pending" : "paused",
+      todo.id,
+    ]);
+    todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
+
+  const deleteTodo = async (todo: Todo) => {
+    const db = await Database.load("sqlite:todos.db");
+    await db.execute("DELETE FROM todos WHERE id = $1", [todo.id]);
+    todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
+
   const resetTodos = async () => {
     const db = await Database.load("sqlite:todos.db");
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
@@ -69,6 +86,17 @@
     <List items={pending}>
       {#snippet actions(item)}
         <Complete
+          onclick={() => {
+            completeTodo(item);
+          }}
+        />
+        <Toggle
+          pressed={item.status === "paused"}
+          onclick={() => {
+            completeTodo(item);
+          }}
+        />
+        <Delete
           onclick={() => {
             completeTodo(item);
           }}

@@ -5,11 +5,12 @@
   import Meter from "./Meter.svelte";
   import Add from "./actions/Add.svelte";
   import List from "./List.svelte";
-  import Placeholder from "./Placeholder.svelte";
-  import Reset from "./Reset.svelte";
   import Complete from "./actions/Complete.svelte";
   import Toggle from "./actions/Toggle.svelte";
   import Delete from "./actions/Delete.svelte";
+  import Placeholder from "./Placeholder.svelte";
+  import Reset from "./Reset.svelte";
+  import Details from "./Details.svelte";
 
   let todos: Todo[] = $state([]);
   let complete = $derived(todos.filter((d) => d.status === "complete"));
@@ -105,6 +106,51 @@
     </List>
   {:else}
     <Placeholder />
+  {/if}
+
+  {#if paused.length > 0}
+    <Details>
+      {#snippet summary()}
+        Do later
+      {/snippet}
+      <List items={paused}>
+        {#snippet actions(item)}
+          <Complete
+            onclick={() => {
+              completeTodo(item);
+            }}
+          />
+          <Toggle
+            onclick={() => {
+              toggleTodo(item);
+            }}
+            pressed={item.status === "paused"}
+          />
+          <Delete
+            onclick={() => {
+              deleteTodo(item);
+            }}
+          />
+        {/snippet}
+      </List>
+    </Details>
+  {/if}
+
+  {#if complete.length > 0}
+    <Details>
+      {#snippet summary()}
+        Completed
+      {/snippet}
+      <List items={complete}>
+        {#snippet actions(item)}
+          <Delete
+            onclick={() => {
+              deleteTodo(item);
+            }}
+          />
+        {/snippet}
+      </List>
+    </Details>
   {/if}
 
   {#if paused.length + complete.length > 0}

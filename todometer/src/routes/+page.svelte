@@ -66,8 +66,6 @@
     await db.execute("UPDATE todos SET status = 'pending'");
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
-
-  $inspect(todos);
 </script>
 
 <div class="root">

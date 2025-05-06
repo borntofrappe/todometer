@@ -4,8 +4,10 @@
   import Header from "./Header.svelte";
   import Meter from "./Meter.svelte";
   import Add from "./actions/Add.svelte";
+  import List from "./List.svelte";
   import Placeholder from "./Placeholder.svelte";
   import Reset from "./Reset.svelte";
+  import Complete from "./actions/Complete.svelte";
 
   let todos: Todo[] = $state([]);
   let complete = $derived(todos.filter((d) => d.status === "complete"));
@@ -32,6 +34,14 @@
     value = "";
   };
 
+  const completeTodo = async (todo: Todo) => {
+    const db = await Database.load("sqlite:todos.db");
+    await db.execute("UPDATE todos SET status = 'complete' WHERE id = $1", [
+      todo.id,
+    ]);
+    todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
+
   const resetTodos = async () => {
     const db = await Database.load("sqlite:todos.db");
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
@@ -56,7 +66,15 @@
   />
 
   {#if pending.length > 0}
-    <!-- ... -->
+    <List items={pending}>
+      {#snippet actions(item)}
+        <Complete
+          onclick={() => {
+            completeTodo(item);
+          }}
+        />
+      {/snippet}
+    </List>
   {:else}
     <Placeholder />
   {/if}

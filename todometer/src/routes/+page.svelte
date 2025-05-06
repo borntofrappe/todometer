@@ -4,6 +4,7 @@
   import Header from "./Header.svelte";
   import Meter from "./Meter.svelte";
   import Add from "./actions/Add.svelte";
+  import Placeholder from "./Placeholder.svelte";
 
   let todos: Todo[] = $state([]);
   let complete = $derived(todos.filter((d) => d.status === "complete"));
@@ -45,6 +46,12 @@
       addTodo();
     }}
   />
+
+  {#if pending.length > 0}
+    <!-- ... -->
+  {:else}
+    <Placeholder />
+  {/if}
 </div>
 
 <style>

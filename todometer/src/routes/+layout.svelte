@@ -87,7 +87,7 @@
 
 <style>
   .window {
-    --title-bar-button-size: 2em;
+    --title-bar-button-size: 1.8em;
     --title-bar-padding-block: calc(var(--size-1) * 0.5);
     padding-block-start: calc(
       var(--title-bar-button-size) + var(--title-bar-padding-block) * 2
@@ -108,6 +108,7 @@
   }
 
   button {
+    font-size: 1rem;
     cursor: pointer;
     width: var(--title-bar-button-size, 2em);
     height: var(--title-bar-button-size, 2em);

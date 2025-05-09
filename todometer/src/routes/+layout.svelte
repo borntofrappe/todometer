@@ -1,14 +1,13 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { getCurrentWindow } from "@tauri-apps/api/window";
-  import { exit } from "@tauri-apps/plugin-process";
   import { isTauri } from "@tauri-apps/api/core";
 
   let { children }: { children: Snippet } = $props();
 
   let maximized = $state(false);
   let fullscreen = $state(false);
-  let hasTitleBar = $derived(isTauri() && !fullscreen)
+  let hasTitleBar = $derived(isTauri() && !fullscreen);
 
   const minimize = () => {
     getCurrentWindow().minimize();
@@ -21,7 +20,7 @@
   };
 
   const closeApp = async () => {
-    await exit(1);
+    await getCurrentWindow().close();
   };
 
   const toggleFullscreen = async () => {

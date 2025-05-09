@@ -2,11 +2,13 @@
   import type { Snippet } from "svelte";
   import { getCurrentWindow } from "@tauri-apps/api/window";
   import { exit } from "@tauri-apps/plugin-process";
+  import { isTauri } from "@tauri-apps/api/core";
 
   let { children }: { children: Snippet } = $props();
 
   let maximized = $state(false);
   let fullscreen = $state(false);
+  let hasTitleBar = $derived(isTauri() && !fullscreen)
 
   const minimize = () => {
     getCurrentWindow().minimize();
@@ -48,7 +50,7 @@
 <svelte:window {onkeydown} />
 
 <div class="window">
-  {#if !fullscreen}
+  {#if hasTitleBar}
     <div class="title-bar" data-tauri-drag-region>
       <button onclick={minimize} aria-label="Mimimise window">
         <svg viewBox="0 -960 960 960" width="1em" height="1em">
@@ -87,24 +89,28 @@
 
 <style>
   .window {
-    --title-bar-button-size: 1.8em;
-    --title-bar-padding-block: calc(var(--size-1) * 0.5);
-    padding-block-start: calc(
-      var(--title-bar-button-size) + var(--title-bar-padding-block) * 2
-    );
-  }
+    padding-inline: var(--size-2);
 
-  .title-bar {
-    position: fixed;
-    inset-inline-start: 0;
-    inset-block-start: 0;
-    inline-size: 100%;
-    padding: var(--size-1);
-    padding-block: var(--title-bar-padding-block);
-    background: var(--surface-1);
-    display: flex;
-    gap: var(--size-1);
-    justify-content: end;
+    &:has(.title-bar) {
+      --title-bar-button-size: 1.8em;
+      --title-bar-padding-block: calc(var(--size-1) * 0.5);
+      padding-block-start: calc(
+        var(--title-bar-button-size) + var(--title-bar-padding-block) * 2
+      );
+
+      .title-bar {
+        position: fixed;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        inline-size: 100%;
+        padding: var(--size-1);
+        padding-block: var(--title-bar-padding-block);
+        background: var(--surface-1);
+        display: flex;
+        gap: var(--size-1);
+        justify-content: end;
+      }
+    }
   }
 
   button {

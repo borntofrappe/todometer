@@ -20,11 +20,38 @@
   let value = $state("");
 
   $effect(() => {
-    Database.load("sqlite:todos.db").then((db) => {
-      db.select("SELECT * FROM todos").then((result) => {
-        todos = result as Todo[];
-      });
-    });
+    let dailyReset = false;
+
+    const date = localStorage.getItem("date");
+    const ddmmyy = date?.match(/\d+/g);
+    if (Array.isArray(ddmmyy) && ddmmyy.length === 3) {
+      const [dd, mm, yy] = ddmmyy.map((d) => parseInt(d, 10));
+      const today = new Date();
+      const [d, m, y] = [
+        today.getDate(),
+        today.getMonth(),
+        today.getFullYear(),
+      ];
+
+      if (d !== dd || m !== mm || y !== yy) {
+        dailyReset = true;
+        localStorage.setItem("date", `${d}-${m}-${y}`);
+      }
+    } else {
+      const today = new Date();
+      const [d, m, y] = [
+        today.getDate(),
+        today.getMonth(),
+        today.getFullYear(),
+      ];
+      localStorage.setItem("date", `${d}-${m}-${y}`);
+    }
+
+    if (dailyReset) {
+      resetTodos();
+    } else {
+      getTodos();
+    }
   });
 
   const addTodo = async () => {
@@ -64,6 +91,11 @@
     const db = await Database.load("sqlite:todos.db");
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
     await db.execute("UPDATE todos SET status = 'pending'");
+    todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
+
+  const getTodos = async () => {
+    const db = await Database.load("sqlite:todos.db");
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 </script>

@@ -10,7 +10,9 @@
     <li>
       <span>{item.text}</span>
 
-      {@render actions(item)}
+      <div>
+        {@render actions(item)}
+      </div>
     </li>
   {/each}
 </ul>
@@ -34,6 +36,12 @@
 
     span {
       flex-grow: 1;
+    }
+
+    div {
+      display: flex;
+      gap: 1px;
+      align-items: center;
     }
   }
 </style>

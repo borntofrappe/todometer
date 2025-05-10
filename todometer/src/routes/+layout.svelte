@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { getCurrentWindow } from "@tauri-apps/api/window";
-  import { isTauri } from "@tauri-apps/api/core";
+  import { type } from "@tauri-apps/plugin-os";
 
   let { children }: { children: Snippet } = $props();
 
   let maximized = $state(false);
   let fullscreen = $state(false);
-  let hasTitleBar = $derived(isTauri() && !fullscreen);
+  let hasWindowBar = $derived(
+    ["windows", "macos", "linux"].includes(type()) && !fullscreen
+  );
 
   const minimize = () => {
     getCurrentWindow().minimize();
@@ -49,8 +51,8 @@
 <svelte:window {onkeydown} />
 
 <div class="window">
-  {#if hasTitleBar}
-    <div class="title-bar" data-tauri-drag-region>
+  {#if hasWindowBar}
+    <div class="window--bar" data-tauri-drag-region>
       <button onclick={minimize} aria-label="Mimimise window">
         <svg viewBox="0 -960 960 960" width="1em" height="1em">
           <path
@@ -90,20 +92,20 @@
   .window {
     padding-inline: var(--size-2);
 
-    &:has(.title-bar) {
-      --title-bar-button-size: 1.8em;
-      --title-bar-padding-block: calc(var(--size-1) * 0.5);
+    &:has(.window--bar) {
+      --window--bar-button-size: 1.8em;
+      --window--bar-padding-block: calc(var(--size-1) * 0.5);
       padding-block-start: calc(
-        var(--title-bar-button-size) + var(--title-bar-padding-block) * 2
+        var(--window--bar-button-size) + var(--window--bar-padding-block) * 2
       );
 
-      .title-bar {
+      .window--bar {
         position: fixed;
         inset-inline-start: 0;
         inset-block-start: 0;
         inline-size: 100%;
         padding: var(--size-1);
-        padding-block: var(--title-bar-padding-block);
+        padding-block: var(--window--bar-padding-block);
         background: var(--surface-1);
         display: flex;
         gap: var(--size-1);
@@ -115,8 +117,8 @@
   button {
     font-size: 1rem;
     cursor: pointer;
-    width: var(--title-bar-button-size, 2em);
-    height: var(--title-bar-button-size, 2em);
+    width: var(--window--bar-button-size, 2em);
+    height: var(--window--bar-button-size, 2em);
     border-radius: 0.4em;
     padding: 0.4em;
     border: none;

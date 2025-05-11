@@ -1,5 +1,6 @@
+use tauri::Manager;
 use tauri_plugin_sql::{Migration, MigrationKind};
-use tauri::{Manager};
+use tauri_plugin_window_state::StateFlags;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -15,7 +16,6 @@ pub fn run() {
     }];
 
     let mut builder = tauri::Builder::default();
-
     #[cfg(desktop)]
     {
         builder = builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
@@ -27,6 +27,11 @@ pub fn run() {
     }
 
     builder
+        .plugin(
+            tauri_plugin_window_state::Builder::new()
+                .with_state_flags(StateFlags::all() & !StateFlags::DECORATIONS)
+                .build(),
+        )
         .plugin(tauri_plugin_os::init())
         .plugin(
             tauri_plugin_sql::Builder::new()

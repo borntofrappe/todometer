@@ -1,0 +1,12 @@
+{
+  "productName": "todometer",
+  "identifier": "com.todometer.app",
+  "app": {
+    "windows": [
+      {
+        "visible": false,
+        "decorations": false
+      }
+    ]
+  }
+}

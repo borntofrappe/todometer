@@ -2,6 +2,7 @@
   import type { Snippet } from "svelte";
   import { getCurrentWindow } from "@tauri-apps/api/window";
   import { type } from "@tauri-apps/plugin-os";
+  import "../app.css";
 
   let { children }: { children: Snippet } = $props();
 

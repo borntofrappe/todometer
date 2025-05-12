@@ -10,6 +10,7 @@
     "opener:default",
     "sql:default",
     "sql:allow-execute",
-    "os:allow-platform"
+    "os:allow-platform",
+    "notification:default"
   ]
 }

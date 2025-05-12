@@ -1,5 +1,10 @@
 <script lang="ts">
   import Database from "@tauri-apps/plugin-sql";
+  import {
+    isPermissionGranted,
+    requestPermission,
+    sendNotification,
+  } from "@tauri-apps/plugin-notification";
 
   import Header from "./Header.svelte";
   import Meter from "./Meter.svelte";
@@ -92,6 +97,17 @@
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
     await db.execute("UPDATE todos SET status = 'pending'");
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
+
+    let permissionGranted = await isPermissionGranted();
+    if (!permissionGranted) {
+      permissionGranted = (await requestPermission()) === "granted";
+    }
+    if (permissionGranted) {
+      sendNotification({
+        title: "It's a new day!",
+        body: "Your todos have been reset",
+      });
+    }
   };
 
   const getTodos = async () => {

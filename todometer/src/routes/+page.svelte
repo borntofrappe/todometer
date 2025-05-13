@@ -54,6 +54,10 @@
 
     if (dailyReset) {
       resetTodos();
+      notify({
+        title: "It's a new day!",
+        body: "Your todos have been reset",
+      });
     } else {
       getTodos();
     }
@@ -92,27 +96,29 @@
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 
-  const resetTodos = async () => {
+  const resetTodos = async (notify: boolean = false) => {
     const db = await Database.load("sqlite:todos.db");
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
     await db.execute("UPDATE todos SET status = 'pending'");
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
 
+  const getTodos = async () => {
+    const db = await Database.load("sqlite:todos.db");
+    todos = (await db.select("SELECT * FROM todos")) as Todo[];
+  };
+
+  const notify = async ({ title, body }: { title: string; body: string }) => {
     let permissionGranted = await isPermissionGranted();
     if (!permissionGranted) {
       permissionGranted = (await requestPermission()) === "granted";
     }
     if (permissionGranted) {
       sendNotification({
-        title: "It's a new day!",
-        body: "Your todos have been reset",
+        title,
+        body,
       });
     }
-  };
-
-  const getTodos = async () => {
-    const db = await Database.load("sqlite:todos.db");
-    todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 </script>
 

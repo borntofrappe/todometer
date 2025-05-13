@@ -1,6 +1,5 @@
 use tauri::Manager;
 use tauri_plugin_sql::{Migration, MigrationKind};
-use tauri_plugin_window_state::StateFlags;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -28,11 +27,6 @@ pub fn run() {
 
     builder
         .plugin(tauri_plugin_notification::init())
-        .plugin(
-            tauri_plugin_window_state::Builder::new()
-                .with_state_flags(StateFlags::all() & !StateFlags::DECORATIONS)
-                .build(),
-        )
         .plugin(tauri_plugin_os::init())
         .plugin(
             tauri_plugin_sql::Builder::new()

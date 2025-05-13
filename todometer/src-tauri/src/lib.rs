@@ -1,5 +1,6 @@
 use tauri::Manager;
 use tauri_plugin_sql::{Migration, MigrationKind};
+use tauri_plugin_positioner::{WindowExt, Position};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -33,6 +34,16 @@ pub fn run() {
                 .add_migrations("sqlite:todos.db", migrations)
                 .build(),
         )
+        .plugin(tauri_plugin_positioner::init())
+        .setup(|app| {
+            #[cfg(desktop)]
+            {
+                let win = app.get_webview_window("main").unwrap();
+                let _ = win.as_ref().window().move_window(Position::Center);
+                let _ = win.show();
+            }
+            Ok(())
+        })
         .plugin(tauri_plugin_opener::init())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

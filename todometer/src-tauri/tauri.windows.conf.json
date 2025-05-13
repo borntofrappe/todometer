@@ -4,6 +4,7 @@
   "app": {
     "windows": [
       {
+        "visible": false,
         "decorations": false
       }
     ]

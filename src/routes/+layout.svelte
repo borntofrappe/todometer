@@ -111,6 +111,7 @@
         display: flex;
         gap: var(--size-1);
         justify-content: end;
+        z-index: 1;
       }
     }
   }

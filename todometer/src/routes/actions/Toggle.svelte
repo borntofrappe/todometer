@@ -20,6 +20,6 @@
 
 <style>
   button {
-    color: var(--y-2, khaki);
+    color: var(--yellow, khaki);
   }
 </style>

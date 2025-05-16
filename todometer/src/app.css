@@ -9,15 +9,12 @@
   --text-1: light-dark(var(--gray-8), var(--gray-3));
   --text-2: light-dark(var(--gray-8), var(--gray-4));
   --text-3: light-dark(var(--gray-6), var(--gray-6));
-  --surface-1: light-dark(var(--gray-0), var(--gray-10));
-  --surface-2: light-dark(var(--gray-2), var(--gray-9));
+  --surface-1: light-dark(var(--gray-0), var(--gray-11));
+  --surface-2: light-dark(var(--gray-2), var(--gray-10));
 
-  --r-1: light-dark(var(--red-6), var(--red-7));
-  --r-2: light-dark(var(--red-7), var(--red-8));
-  --g-1: light-dark(var(--green-5), var(--green-8));
-  --g-2: light-dark(var(--green-6), var(--green-8));
-  --y-1: light-dark(var(--yellow-5), var(--yellow-6));
-  --y-2: light-dark(var(--yellow-5), var(--yellow-7));
+  --red: light-dark(var(--red-6), var(--red-7));
+  --green: light-dark(var(--green-6), var(--green-8));
+  --yellow: light-dark(var(--yellow-5), var(--yellow-6));
 
   --highlight-duration: var(--duration-gentle-1);
   --highlight-easing: var(--ease-out-2);

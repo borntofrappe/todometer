@@ -27,11 +27,11 @@
       }
 
       &[data-value="complete"] {
-        background: var(--g-1, lightgreen);
+        background: var(--green, lightgreen);
       }
 
       &[data-value="paused"] {
-        background: var(--y-1, khaki);
+        background: var(--yellow, khaki);
       }
     }
   }

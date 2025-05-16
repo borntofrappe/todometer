@@ -13,6 +13,6 @@
 
 <style>
   button {
-    color: var(--g-2, lightgreen);
+    color: var(--green, lightgreen);
   }
 </style>

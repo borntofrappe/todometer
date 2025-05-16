@@ -1,27 +1,18 @@
 # todometer
 
-[Cassidy Williams built todometer](https://cassidoo.co/post/todometer-build-log/) as "a meter-based to-do list". This repository is meant to recreate the application to practice with [Svelte](https://svelte.dev/), but mostly to learn [Tauri](https://v2.tauri.app/).
+Add tasks, complete them to your immediate delight or pause them to take a well-discerned break.
 
-In terms of style there is just CSS and custom properties from [Open Props](https://open-props.style/).
+At the beginning of a new day the list is reset, and you get another chance to check old tasks for good.
 
-## sveltekit
+## Develop
 
-The sub-folder helped to design the application with Svelte and SvelteKit. It might still help to provide a quit frontend to experiment.
-
-```sh
-cd sveltekit
-pnpm i
-pnpm dev
-```
-
-Of note: the application works with [SvelteKit form actions](https://svelte.dev/docs/kit/form-actions) and a server, although there is no concept of storage. The code sadly does not carry to the Tauri app.
-
-## todometer
-
-The sub-folder creates the application with Tauri and a Svelte frontend. Persistent storage works with an SQLite database and [Tauri's SQL plugin](https://v2.tauri.app/plugin/sql/).
+After reading the [prerequisites](https://v2.tauri.app/start/prerequisites/) section to develop Tauri applications, and at least on desktop, you can run the project through Tauri's own CLI.
 
 ```sh
-cd todometer
 pnpm i
 pnpm tauri dev
 ```
+
+## History
+
+[Cassidy Williams built todometer](https://cassidoo.co/post/todometer-build-log/) as "a meter-based to-do list" with React and Electron. Inspired by her success this repository recreates the application with [Svelte](https://svelte.dev/) and [Tauri](https://v2.tauri.app/). Beside the two I use plain CSS for styling with the support of custom properties from [Open Props](https://open-props.style/). On the back-end I manage the tasks in a database and [SQLite](https://www.sqlite.org/).

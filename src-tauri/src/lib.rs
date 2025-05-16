@@ -1,6 +1,6 @@
 use tauri::Manager;
+use tauri_plugin_positioner::{Position, WindowExt};
 use tauri_plugin_sql::{Migration, MigrationKind};
-use tauri_plugin_positioner::{WindowExt, Position};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

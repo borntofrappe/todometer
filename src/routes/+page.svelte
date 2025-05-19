@@ -1,5 +1,9 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
+
   import Database from "@tauri-apps/plugin-sql";
+
   import {
     isPermissionGranted,
     requestPermission,
@@ -23,8 +27,9 @@
   let pending = $derived(todos.filter((d) => d.status === "pending"));
 
   let value = $state("");
+  let firstPaint = $state(false);
 
-  $effect(() => {
+  onMount(async () => {
     let dailyReset = false;
 
     const date = localStorage.getItem("date");
@@ -53,14 +58,15 @@
     }
 
     if (dailyReset) {
-      resetTodos();
+      await resetTodos();
       notify({
         title: "It's a new day!",
         body: "Your todos have been reset",
       });
     } else {
-      getTodos();
+      await getTodos();
     }
+    firstPaint = true;
   });
 
   const addTodo = async () => {
@@ -122,50 +128,22 @@
   };
 </script>
 
-<div class="root">
-  <Header />
+{#if firstPaint}
+  <div in:fade class="root">
+    <Header />
 
-  <Meter values={[complete.length, paused.length, pending.length]} />
+    <Meter values={[complete.length, paused.length, pending.length]} />
 
-  <Add
-    bind:value
-    onsubmit={(event: SubmitEvent) => {
-      event.preventDefault();
-      addTodo();
-    }}
-  />
+    <Add
+      bind:value
+      onsubmit={(event: SubmitEvent) => {
+        event.preventDefault();
+        addTodo();
+      }}
+    />
 
-  {#if pending.length > 0}
-    <List items={pending}>
-      {#snippet actions(item)}
-        <Complete
-          onclick={() => {
-            completeTodo(item);
-          }}
-        />
-        <Toggle
-          onclick={() => {
-            toggleTodo(item);
-          }}
-          pressed={item.status === "paused"}
-        />
-        <Delete
-          onclick={() => {
-            deleteTodo(item);
-          }}
-        />
-      {/snippet}
-    </List>
-  {:else}
-    <Placeholder />
-  {/if}
-
-  {#if paused.length > 0}
-    <Details>
-      {#snippet summary()}
-        Do later
-      {/snippet}
-      <List items={paused}>
+    {#if pending.length > 0}
+      <List items={pending}>
         {#snippet actions(item)}
           <Complete
             onclick={() => {
@@ -185,30 +163,60 @@
           />
         {/snippet}
       </List>
-    </Details>
-  {/if}
+    {:else}
+      <Placeholder />
+    {/if}
 
-  {#if complete.length > 0}
-    <Details>
-      {#snippet summary()}
-        Completed
-      {/snippet}
-      <List items={complete}>
-        {#snippet actions(item)}
-          <Delete
-            onclick={() => {
-              deleteTodo(item);
-            }}
-          />
+    {#if paused.length > 0}
+      <Details>
+        {#snippet summary()}
+          Do later
         {/snippet}
-      </List>
-    </Details>
-  {/if}
+        <List items={paused}>
+          {#snippet actions(item)}
+            <Complete
+              onclick={() => {
+                completeTodo(item);
+              }}
+            />
+            <Toggle
+              onclick={() => {
+                toggleTodo(item);
+              }}
+              pressed={item.status === "paused"}
+            />
+            <Delete
+              onclick={() => {
+                deleteTodo(item);
+              }}
+            />
+          {/snippet}
+        </List>
+      </Details>
+    {/if}
 
-  {#if paused.length + complete.length > 0}
-    <Reset onclick={resetTodos} />
-  {/if}
-</div>
+    {#if complete.length > 0}
+      <Details>
+        {#snippet summary()}
+          Completed
+        {/snippet}
+        <List items={complete}>
+          {#snippet actions(item)}
+            <Delete
+              onclick={() => {
+                deleteTodo(item);
+              }}
+            />
+          {/snippet}
+        </List>
+      </Details>
+    {/if}
+
+    {#if paused.length + complete.length > 0}
+      <Reset onclick={resetTodos} />
+    {/if}
+  </div>
+{/if}
 
 <style>
   .root {

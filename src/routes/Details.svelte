@@ -12,6 +12,7 @@
 
 <style>
   summary {
+    user-select: none;
     --_marker-size: 1.5em;
     cursor: pointer;
     display: inline-block;

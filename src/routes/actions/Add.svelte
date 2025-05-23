@@ -3,7 +3,7 @@
 </script>
 
 <form {onsubmit}>
-  <input type="text" placeholder="Add new item" bind:value />
+  <input type="text" placeholder="Add new item" bind:value spellcheck="false" />
   <button class="svg-button" aria-label="Add new item">
     <svg viewBox="0 -960 960 960" width="1em" height="1em">
       <path

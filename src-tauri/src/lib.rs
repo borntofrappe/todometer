@@ -29,6 +29,7 @@ pub fn run() {
             .plugin(tauri_plugin_positioner::init())
             .setup(|app| {
                 let win = app.get_webview_window("main").unwrap();
+                let _ = win.set_title("todometer");
                 let _ = win.as_ref().window().move_window(Position::Center);
                 let _ = win.show();
                 Ok(())

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { load } from "@tauri-apps/plugin-store";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
@@ -29,23 +30,33 @@
   let value = $state("");
   let firstPaint = $state(false);
 
+  const STORE_PATH = "store.json";
+  const STORE_KEY = "date";
+  type Result = {
+    date: string;
+  };
+
   onMount(async () => {
     let dailyReset = false;
 
-    const date = localStorage.getItem("date");
-    const ddmmyy = date?.match(/\d+/g);
-    if (Array.isArray(ddmmyy) && ddmmyy.length === 3) {
-      const [dd, mm, yy] = ddmmyy.map((d) => parseInt(d, 10));
-      const today = new Date();
-      const [d, m, y] = [
-        today.getDate(),
-        today.getMonth(),
-        today.getFullYear(),
-      ];
+    const store = await load(STORE_PATH, { autoSave: false });
+    const result = await store.get<Result>(STORE_KEY);
+    if (result) {
+      const { date } = result;
+      const ddmmyy = date.match(/\d+/g);
+      if (Array.isArray(ddmmyy) && ddmmyy.length === 3) {
+        const [dd, mm, yy] = ddmmyy.map((d) => parseInt(d, 10));
+        const today = new Date();
+        const [d, m, y] = [
+          today.getDate(),
+          today.getMonth(),
+          today.getFullYear(),
+        ];
 
-      if (d !== dd || m !== mm || y !== yy) {
-        dailyReset = true;
-        localStorage.setItem("date", `${d}-${m}-${y}`);
+        if (d !== dd || m !== mm || y !== yy) {
+          dailyReset = true;
+          await store.set(STORE_KEY, { date: `${d}-${m}-${y}` });
+        }
       }
     } else {
       const today = new Date();
@@ -54,7 +65,7 @@
         today.getMonth(),
         today.getFullYear(),
       ];
-      localStorage.setItem("date", `${d}-${m}-${y}`);
+      await store.set(STORE_KEY, { date: `${d}-${m}-${y}` });
     }
 
     if (dailyReset) {

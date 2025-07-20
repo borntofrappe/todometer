@@ -30,6 +30,7 @@
   let value = $state("");
   let firstPaint = $state(false);
 
+  const DB_PATH = "sqlite:todos.db";
   const STORE_PATH = "store.json";
   const STORE_KEY = "date";
   type Result = {
@@ -83,7 +84,7 @@
   const addTodo = async () => {
     if (value === "") return;
 
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     await db.execute("INSERT INTO todos (text) VALUES ($1)", [value]);
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
 
@@ -91,7 +92,7 @@
   };
 
   const completeTodo = async (todo: Todo) => {
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     await db.execute("UPDATE todos SET status = 'complete' WHERE id = $1", [
       todo.id,
     ]);
@@ -99,7 +100,7 @@
   };
 
   const toggleTodo = async (todo: Todo) => {
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     await db.execute("UPDATE todos SET status = $1 WHERE id = $2", [
       todo.status === "paused" ? "pending" : "paused",
       todo.id,
@@ -108,20 +109,20 @@
   };
 
   const deleteTodo = async (todo: Todo) => {
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     await db.execute("DELETE FROM todos WHERE id = $1", [todo.id]);
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 
   const resetTodos = async (notify: boolean = false) => {
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     await db.execute("DELETE FROM todos WHERE status = 'complete'");
     await db.execute("UPDATE todos SET status = 'pending'");
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 
   const getTodos = async () => {
-    const db = await Database.load("sqlite:todos.db");
+    const db = await Database.load(DB_PATH);
     todos = (await db.select("SELECT * FROM todos")) as Todo[];
   };
 
